@@ -3,7 +3,7 @@
 The feature is done when **every command below passes**. This is the executable definition of
 "done" — not a vibe, a gate. An agent should run these and stop; a reviewer should re-run them.
 
-Run from whichever example you're implementing in (`examples/monolith` or `examples/microservice`).
+Run from the bounded context you're implementing in (see [`arch-examples/`](../../../../arch-examples/README.md) for the structure — flat, feature-driven, or core + features).
 
 ## Behavior (maps to requirements.md)
 

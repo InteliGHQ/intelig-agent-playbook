@@ -17,11 +17,17 @@ detail that can be swapped without touching it.
   controller; a domain model may not import a repository implementation. *Why:* the domain stays
   testable and portable; you can replace HTTP, the database, or the framework without rewriting
   business rules. *Enforcement:* `fitness`.
-- **ARCH-002 — Bounded context, then vertical slice.** The top-level cut is by bounded context
-  and then by feature/use-case slice (`domains/customer/register-customer/...`), not by technical
-  layer (`controllers/`, `services/`, `repositories/`). Within a slice, use the layer folders.
-  *Why:* a context groups its related slices, and each slice's code, tests, and spec sit together;
-  an agent can load one slice and have everything it needs. *Enforcement:* `manual-review`.
+- **ARCH-002 — Bounded context, then a slice pattern by complexity.** The top-level cut is by
+  bounded context, never by technical layer (`controllers/`, `services/`, `repositories/`). *Inside*
+  a context, pick the vertical-slice pattern that fits its complexity: **flat CQRS** (`api/
+  application/ domain/ infrastructure/` at the context level) for a small context; **feature-driven**
+  (`feature/<slice>/` owning its `api/` + one command *or* query) once there are many operations;
+  or **core + features** (`core/` holds the shared domain + infra, `feature/` holds the use cases)
+  for a rich domain. The domain is **shared** — in `core/` or the context's `domain/` — and is
+  never duplicated per feature; a feature owns its transport and its one command/query, nothing
+  more. See [`arch-examples/`](../arch-examples/README.md) for the progression. *Why:* the structure
+  shows what the context *does*, and an agent can load one feature with everything it needs.
+  *Enforcement:* `manual-review`.
 - **ARCH-003 — Infrastructure depends on domain, never the reverse.** A Postgres repository
   *implements* a domain-defined interface. The domain declares the port; infrastructure provides
   the adapter. *Enforcement:* `fitness`.
@@ -107,7 +113,7 @@ over time is to move rules *up* this list as they prove they matter.
 
 | Rule | Enforcement | Mechanism |
 |---|---|---|
-| ARCH-001, ARCH-003, ARCH-004 | `fitness` | dependency-direction test (`examples/*/test/architecture.fitness.test.ts`) |
+| ARCH-001, ARCH-003, ARCH-004 | `fitness` | dependency-direction test (`<context>/test/architecture.fitness.test.ts`) |
 | DOM-002 | `fitness` | "no exported aggregate has a public constructor" test |
 | DOM-004 | `fitness` | "no public setter on an aggregate" test |
 | CQRS-001, CQRS-002 | `fitness` | "command handlers return void/id; one handler per message" test |
@@ -121,7 +127,7 @@ A reviewer notices a controller reaching into a domain aggregate directly — a 
 **API-001**. The wrong fix is to add a sentence to `AGENTS.md` and hope. The right fix:
 
 ```ts
-// examples/microservice/test/architecture.fitness.test.ts
+// customer/test/architecture.fitness.test.ts
 test("API-001: controllers contain no domain imports", () => {
   const offenders = sourceFiles("src/api/**/*.ts")
     .filter(f => f.imports.some(i => i.from.includes("/domain/")));

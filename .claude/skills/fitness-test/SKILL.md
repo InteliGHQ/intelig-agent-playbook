@@ -21,7 +21,7 @@ guess each time.
   rule makes a flaky test.
 
 ## The contract (non-negotiable)
-- The test lives in `examples/<monolith|microservice>/test/architecture.fitness.test.ts`.
+- The test lives in the bounded context's `test/architecture.fitness.test.ts` (see `arch-examples/`).
 - The test name starts with the rule ID, e.g. `test("API-001: controllers import no domain types", …)`.
 - On failure it prints the rule ID **and** the offending files — so the next agent gets the ID in
   the red build and the lesson isn't taught twice.

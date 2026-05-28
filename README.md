@@ -14,7 +14,7 @@ CLAUDE.md     ← one line: @AGENTS.md  (so Claude Code reads the same source)
 standards/    ← the law: the rules the agent must obey, with stable IDs
 product/      ← what we're building: spec-first work-items grouped by domain + the strategy
 .claude/      ← the tooling: hooks, subagents, slash commands, skills, settings
-examples/     ← proof: the same feature built as a monolith and as a microservice
+arch-examples/ ← proof: the playbook inside real source — feature-driven slices, inside DDD
 ```
 
 The example domain threaded through the whole repo is the **Customer** context of a B2B SaaS
@@ -56,11 +56,13 @@ guarantees live in tests and hooks. That hierarchy — advisory → enforced —
 between hoping and knowing. ([fitness functions](https://www.infoq.com/articles/fitness-functions-architecture/),
 [agentic architecture governance](https://www.oreilly.com/radar/how-agentic-ai-empowers-architecture-governance/))
 
-## Two shapes of the same idea
+## One architecture, sliced by complexity
 
-`examples/monolith/` and `examples/microservice/` implement the *same* Register-Customer feature.
-The standards and the spec don't change — only the deployment shape does. Read both to see what
-actually differs (and what doesn't) when you split a vertical slice into a service.
+[`arch-examples/`](./arch-examples/) shows the *same* Customer context structured three ways — flat
+CQRS, feature-driven, and `core/` + `feature/` + Event Sourcing — because **Feature-Driven lives
+inside DDD**: the bounded context is the boundary, and you pick the slice pattern that fits the
+context's complexity. It's also where you see exactly where the playbook's conventions (specs, rule
+IDs, fitness tests) attach to real source.
 
 ## The multi-repo variant
 

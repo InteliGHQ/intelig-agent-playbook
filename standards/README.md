@@ -33,7 +33,7 @@ A rule is only as strong as its enforcement. Each rule carries an enforcement ta
 
 - **`fitness`** — an automated architecture test fails if the rule is broken. *Mandatory.* The
   code physically cannot merge while violating it. (See `architecture.rules.md` → Enforcement Map,
-  and the runnable tests in `examples/*/`.)
+  and the runnable tests in each context's `test/`.)
 - **`ci`** — a linter, type check, or unit test enforces it.
 - **`manual-review`** — a human (or a review subagent) checks it. Advisory. The weakest tier;
   promote rules out of this tier as they prove load-bearing.

@@ -4,20 +4,27 @@ What compliant code looks like. The rules in [`architecture.rules.md`](./archite
 are language-agnostic; these are one concrete reference in TypeScript. The same shapes apply in
 Java, Go, C#, etc. — only the syntax changes.
 
-## A vertical slice
+## A vertical slice (feature-driven)
+
+A feature owns its transport and its one command/query; the **domain is shared at the context
+level**, never duplicated per feature.
 
 ```
-domains/customer/register-customer/
-├── api/            register-customer.controller.ts       # API-001: thin
-├── application/
-│   ├── command/    register-customer.command.ts           # CQRS-003: imperative name
-│   └── handler/    register-customer.handler.ts           # CQRS-002: one handler
-├── domain/
-│   ├── model/      customer.ts                             # the aggregate
-│   ├── model/      email-address.ts  company-name.ts       # DOM-003: value objects
-│   └── event/      customer-registered.event.ts            # ES-001: past-tense fact
-└── infrastructure/ customer.repository.ts                  # ARCH-003: implements a domain port
+customer/                              ← bounded context
+├── feature/register-customer/
+│   ├── api/         register-customer.controller.ts        # API-001: thin
+│   └── application/
+│       ├── command/ register-customer.command.ts            # CQRS-003: imperative name
+│       └── handler/ register-customer.handler.ts            # CQRS-002: one handler
+├── domain/                            ← shared across features (not per-feature)
+│   ├── model/       customer.ts                             # the aggregate
+│   ├── model/       email-address.ts  company-name.ts       # DOM-003: value objects
+│   └── event/       customer-registered.event.ts            # ES-001: past-tense fact
+└── infrastructure/  customer.repository.ts                  # ARCH-003: implements a domain port
 ```
+
+This is **Pattern B**. For the small-context (flat CQRS, Pattern A) and rich-domain
+(`core/` + `feature/`, Pattern C) shapes, see [`arch-examples/`](../arch-examples/README.md).
 
 ## Aggregate — factory creation, events, no setters (DOM-002, DOM-004)
 

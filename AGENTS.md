@@ -40,8 +40,10 @@ teaching example for building cleanly with an agent.
 
 ## Architecture, in one breath
 
-DDD + CQRS + Event Sourcing, organized as **vertical slices grouped by bounded context**.
-Layers, outermost in:
+**Feature-Driven, inside DDD.** A bounded context is the top-level boundary; inside it you pick a
+vertical-slice pattern by complexity (flat CQRS → `feature/` slices → `core/` + `feature/`). The
+domain is shared (in `core/` or the context's `domain/`), never duplicated per feature. Layers,
+outermost in:
 
 `api/` (transport only, zero business logic) → `application/{command,query,handler}` →
 `domain/{aggregate,event,model}` → `infrastructure/` (persistence, external I/O).
@@ -58,7 +60,7 @@ Naming: commands `<Action><Entity>Command`, queries `Get<Entity><Criteria>Query`
 | The domain (bounded context) a change belongs to | `product/domains/<domain>/README.md` |
 | The current work-item's spec | `product/domains/<domain>/<work-item>/` |
 | The strategy this work serves | `product/initiatives.md` |
-| How the two example shapes differ | `examples/monolith/` and `examples/microservice/` |
+| How to structure source per the architecture | [`arch-examples/`](./arch-examples/) — flat / feature-driven / core + features |
 | A name/shape for a recurring design problem | [refactoring.guru/design-patterns](https://refactoring.guru/design-patterns) — reach for a pattern only to remove pain you already feel, never preemptively |
 
 ## Commit & branch convention

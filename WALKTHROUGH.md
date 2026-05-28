@@ -112,11 +112,12 @@ commit and branch conventions — `feat(domain): … (INI-01)` and `feat/<work-i
 traces back to the goal. The repo is **honest** that the link here is "convention + grep"; true
 auto-linking is a product problem, not a hook.
 
-### 6. Two shapes, one spec
-[`examples/monolith/`](./examples/monolith/) and [`examples/microservice/`](./examples/microservice/)
-implement the *same* feature. The spec, domain model, and fitness-test contract are **identical**;
-only deployment and integration differ. The fitness tests are what keep the monolith modular — so
-splitting to a service later is a refactor, not a rewrite.
+### 6. One architecture, sliced by complexity
+[`arch-examples/`](./arch-examples/) shows the *same* Customer context structured three ways — flat
+CQRS, feature-driven, and `core/` + `feature/` + Event Sourcing. **Feature-Driven lives inside
+DDD:** the bounded context is the boundary; you pick the slice pattern that fits its complexity, and
+the domain stays shared (in `core/`), never duplicated per feature. The spec, the rule IDs, and the
+fitness-test contract are identical across patterns.
 [`docs/multi-repo-fleet.md`](./docs/multi-repo-fleet.md) covers running many repos off one set of
 standards.
 
@@ -144,7 +145,7 @@ value depends on relevance-guessed triggering.
 
 The repo's brand is intellectual honesty, so:
 
-- The [`examples/`](./examples/) are **skeletons** — the spec, the standards, and the fitness-test
+- The structures in [`arch-examples/`](./arch-examples/) are **skeletons** — the spec, the standards, and the fitness-test
   *contract* are defined, but there is no running implementation yet. The gate and the fitness tests
   are demonstrated and contracted, not yet firing against real `src/`.
 - The **dynamic initiatives API** and the **fitness tests** are capabilities the design provides
