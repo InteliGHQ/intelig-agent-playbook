@@ -20,8 +20,8 @@ teaching example for building cleanly with an agent.
 ## Prime directives
 
 1. **Spec before code.** Work is organized by domain: each *bounded context* lives in
-   `product/domains/<domain>/` (its `README.md` is the durable description), and holds spec-first
-   work-items at `product/domains/<domain>/<work-item>/` (`requirements → design → tasks →
+   `product/domains/<domain>/` (its `README.md` is the durable description), and keeps its
+   spec-first work-items in `product/domains/<domain>/work-items/<work-item>/` (`requirements → design → tasks →
    acceptance`). Read the spec; implement one task at a time; stop at the acceptance gate. Don't
    invent scope the spec doesn't ask for.
 2. **Standards are law.** Before writing code in an area, read the matching family in
@@ -58,9 +58,10 @@ Naming: commands `<Action><Entity>Command`, queries `Get<Entity><Criteria>Query`
 | Which rules apply to my change | `standards/STANDARDS_INDEX.md` |
 | One-line summary of every rule | `standards/STANDARDS_DIGEST.md` |
 | The domain (bounded context) a change belongs to | `product/domains/<domain>/README.md` |
-| The current work-item's spec | `product/domains/<domain>/<work-item>/` |
+| The current work-item's spec | `product/domains/<domain>/work-items/<work-item>/` |
 | The strategy this work serves | `product/initiatives.md` |
 | How to structure source per the architecture | [`arch-examples/`](./arch-examples/) — flat / feature-driven / core + features |
+| Where to write the code | [`src/`](./src/) — the build root; clone and start here |
 | A name/shape for a recurring design problem | [refactoring.guru/design-patterns](https://refactoring.guru/design-patterns) — reach for a pattern only to remove pain you already feel, never preemptively |
 
 ## Commit & branch convention

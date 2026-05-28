@@ -11,8 +11,8 @@ specs, not code.
 ## Your output: a work-item folder
 
 Place the work-item under the domain (bounded context) that owns the aggregate it touches:
-`product/domains/<domain>/<work-item>/`, with four files modeled on
-`product/domains/customer/register-customer/`. If that domain doesn't exist yet, first create
+`product/domains/<domain>/work-items/<work-item>/`, with four files modeled on
+`product/domains/customer/work-items/register-customer/`. If that domain doesn't exist yet, first create
 `product/domains/<domain>/README.md` — the durable context description (ubiquitous language, the
 aggregate + value objects, the events it owns, its boundary), modeled on
 `product/domains/customer/README.md`. Then write the work-item's four files:

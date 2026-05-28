@@ -7,8 +7,10 @@ enforcement** that constrains what it can do.
 
 There is one example product threaded through the whole thing — a B2B SaaS backend's **Customer**
 context (register a customer; move it through `PENDING → ACTIVE → SUSPENDED`). Small enough to read
-in a sitting, real enough to show genuine DDD, CQRS, and Event Sourcing. Fork it, swap the example,
-keep the structure.
+in a sitting, real enough to show genuine DDD, CQRS, and Event Sourcing — structured **Feature-Driven
+inside DDD**: the bounded context is the boundary, and the vertical-slice pattern is chosen by the
+context's complexity (see §6). Fork it, swap the example (the "what you are working on" block in
+`AGENTS.md` is a fill-in template), keep the structure.
 
 ## The mental model
 
@@ -49,9 +51,9 @@ The agent now knows *the rules exist*, *where they live*, and *why the work exis
 Work is **spec-first and grouped by domain**:
 
 ```
-product/domains/<domain>/            ← bounded context (durable): README is the context overview
-        └── <work-item>/             ← one unit of work (disposable): the four-file spec
-              requirements → design → tasks → acceptance
+product/domains/<domain>/            ← bounded context (durable); its README is the context overview
+├── work-items/<work-item>/          ← one unit of work (disposable): requirements → design → tasks → acceptance
+└── testing/                         ← context-level test plans, evidence, the fitness-test contract
 ```
 
 `/new-feature` ([command](./.claude/commands/new-feature.md)) derives the domain + work-item and
@@ -65,11 +67,11 @@ hands off to the [`architect`](./.claude/agents/architect.md) subagent, which wr
 
 An implementing agent then does **one task at a time and stops at the acceptance gate**. That gate
 is the anti-over-build mechanism. See the worked example:
-[`product/domains/customer/register-customer/`](./product/domains/customer/register-customer/).
+[`product/domains/customer/work-items/register-customer/`](./product/domains/customer/work-items/register-customer/).
 
 The **durable vs disposable** distinction matters: the *domain* (Customer) owns the aggregate,
 lifecycle, and events and lives forever; a *work-item* (register-customer) is a spec you write once,
-implement, and leave as record.
+implement, and leave as record. In code, a work-item maps to a **feature** slice (§6).
 
 ### 3. Writing code — the standards are the law
 [`standards/`](./standards/) is a chain: **Paradigm → Principle → Rule → Pattern**.
@@ -117,7 +119,8 @@ auto-linking is a product problem, not a hook.
 CQRS, feature-driven, and `core/` + `feature/` + Event Sourcing. **Feature-Driven lives inside
 DDD:** the bounded context is the boundary; you pick the slice pattern that fits its complexity, and
 the domain stays shared (in `core/`), never duplicated per feature. The spec, the rule IDs, and the
-fitness-test contract are identical across patterns.
+fitness-test contract are identical across patterns. When you build for real, code goes in
+[`src/`](./src/) (`src/<context>/…`) — `arch-examples/` is the reference for how to shape it.
 [`docs/multi-repo-fleet.md`](./docs/multi-repo-fleet.md) covers running many repos off one set of
 standards.
 

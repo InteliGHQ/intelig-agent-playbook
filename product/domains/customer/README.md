@@ -1,8 +1,8 @@
 # Domain: Customer
 
 > A **bounded context** of the B2B SaaS platform. This file is the *durable* description of the
-> Customer domain — it outlives any single work item. Work items under it (`register-customer/`,
-> …) are *disposable*: a spec you write once, implement, and leave as record. When you want to
+> Customer domain — it outlives any single work item. Work items under it (in `work-items/`, e.g.
+> `register-customer`) are *disposable*: a spec you write once, implement, and leave as record. When you want to
 > know "what is the Customer domain and what is true about it," read this; when you want to know
 > "how was registration built," read the work item.
 
@@ -42,17 +42,26 @@ Other contexts subscribe to these; they are this domain's public, append-only co
 
 ## Work items
 
-Each is a self-contained spec-first work-item (`requirements → design → tasks → acceptance`).
-The context above is stable; this list grows over time.
+Work items live in [`work-items/`](./work-items/) — one self-contained, spec-first folder each
+(`requirements → design → tasks → acceptance`). The context above is stable; this list grows over
+time, and `work-items/` is where they're kept and managed so they don't sprawl across the domain.
+This table is the index.
 
 | Work item | Does | Initiative | Status |
 |---|---|---|---|
-| [`register-customer/`](./register-customer/) | Create a customer in `PENDING` | INI-01 Customer Onboarding | SPEC READY |
+| [`register-customer/`](./work-items/register-customer/) | Create a customer in `PENDING` | INI-01 Customer Onboarding | SPEC READY |
 | `activate-customer/` | `PENDING → ACTIVE` | INI-03 Lifecycle Automation | planned |
 | `suspend-customer/` | `ACTIVE → SUSPENDED` | INI-03 Lifecycle Automation | planned |
 | `customer-directory/` | Read side / projection over the events above | INI-04 Account Health Signals | planned |
 
 Strategy these serve: [`../../initiatives.md`](../../initiatives.md).
+
+## Testing
+
+Context-level testing lives in [`testing/`](./testing/) — test plans, acceptance evidence, and the
+fitness-test contract that must stay green for the whole context. Per-work-item acceptance criteria
+stay with their work item (e.g. `work-items/register-customer/acceptance.md`); `testing/` is the
+context-wide view.
 
 ## The boundary — what the Customer context is NOT
 

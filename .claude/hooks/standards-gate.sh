@@ -34,7 +34,7 @@ case "$TOOL" in
 esac
 
 case "$FILE" in
-  */examples/*/src/*.ts|*/examples/*/src/*.tsx|*/examples/*/src/*.js|*/examples/*/src/*.jsx|*/examples/*/src/*.mjs) ;;
+  */src/*.ts|*/src/*.tsx|*/src/*.js|*/src/*.jsx|*/src/*.mjs) ;;
   *) exit 0 ;;
 esac
 

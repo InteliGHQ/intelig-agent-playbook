@@ -126,7 +126,7 @@ codebase, simple contexts like `identity` are Pattern A; rich ones like `cognis`
 
 | Playbook artifact | Lands here |
 |---|---|
-| Spec — `product/domains/customer/<work-item>/` | a **feature** slice (B/C) or a context-level command/query (A) |
+| Spec — `product/domains/customer/work-items/<work-item>/` | a **feature** slice (B/C) or a context-level command/query (A) |
 | Rule IDs (`ARCH-/DOM-/CQRS-/API-`) | cited in commits + as comments at the structure they govern |
 | Fitness tests | `customer/test/architecture.fitness.test.ts` — fail the build on a boundary violation |
 | `standards-gate` hook + `fitness-test` skill | operate on edits to this source; gate before code, scaffold the test that promotes a rule to enforced |

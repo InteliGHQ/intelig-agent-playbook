@@ -9,12 +9,12 @@ Do this:
 
 1. Determine the target domain (bounded context) and a short kebab-case `<work-item>` slug from
    the description. If it's unclear which existing domain owns this, ask before scaffolding.
-2. Read `product/domains/customer/register-customer/` to mirror the work-item shape exactly
+2. Read `product/domains/customer/work-items/register-customer/` to mirror the work-item shape exactly
    (README, requirements, design, tasks, acceptance), and `product/domains/customer/README.md`
    for the domain-overview shape.
 3. Read `standards/STANDARDS_INDEX.md` and the families this feature will touch.
 4. Hand off to the **architect** subagent to produce the four files in
-   `product/domains/<domain>/<work-item>/`. If the domain is new, the architect creates its
+   `product/domains/<domain>/work-items/<work-item>/`. If the domain is new, the architect creates its
    `README.md` context overview first. The architect must fill in real content — a user story,
    EARS acceptance criteria, a domain model with cited rule IDs, a phased task table, and a hard
    "what this is NOT" boundary. No placeholders.

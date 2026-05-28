@@ -15,6 +15,7 @@ standards/    ← the law: the rules the agent must obey, with stable IDs
 product/      ← what we're building: spec-first work-items grouped by domain + the strategy
 .claude/      ← the tooling: hooks, subagents, slash commands, skills, settings
 arch-examples/ ← proof: the playbook inside real source — feature-driven slices, inside DDD
+src/          ← where you build: clone it, then start writing code here
 ```
 
 The example domain threaded through the whole repo is the **Customer** context of a B2B SaaS
@@ -38,7 +39,7 @@ invariants, value objects that can't hold invalid state, events as the source of
 3. **[`product/domains/customer/`](./product/domains/customer/)** — a domain (bounded context)
    and its spec-first work-items. The durable context description lives in its `README.md`; each
    work-item under it — e.g.
-   [`register-customer/`](./product/domains/customer/register-customer/) — is
+   [`register-customer/`](./product/domains/customer/work-items/register-customer/) — is
    `requirements → design → tasks → acceptance`. This is how you brief an agent so it can
    one-shot a phase without guessing. (Same shape as
    [GitHub Spec Kit](https://github.com/github/spec-kit) / [AWS Kiro](https://kiro.dev/docs/specs/).)
