@@ -40,4 +40,4 @@ text and the Enforcement Map. Format: `ID — rule (enforcement)`.
 ## TS — language
 - `TS-001` — `strict` mode on; no `any` without a written justification. (ci)
 - `TS-002` — Errors are typed and thrown at boundaries; no silent catch-and-ignore. (ci)
-- `TS-003` — Files and exports are named for the concept, not the layer (`short-link.ts`, not `entity1.ts`). (ci)
+- `TS-003` — Files and exports are named for the concept, not the layer (`customer.ts`, not `entity1.ts`). (ci)

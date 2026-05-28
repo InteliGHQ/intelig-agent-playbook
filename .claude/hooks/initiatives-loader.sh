@@ -17,7 +17,7 @@ SRC="$ROOT/product/initiatives.md"
 echo "# Active Initiatives (auto-loaded)"
 echo
 echo "Cite the initiative ID in commit subjects so code links back to strategy — e.g."
-echo '`feat(domain): record click event on visit (INI-01)`.'
+echo '`feat(domain): emit CustomerRegisteredEvent on registration (INI-01)`.'
 echo
 echo "| ID | Name | Status | Quarter |"
 echo "|---|---|---|---|"

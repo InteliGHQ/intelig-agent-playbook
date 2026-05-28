@@ -17,9 +17,10 @@ product/      ← what we're building: features as spec-first work-items + the s
 examples/     ← proof: the same feature built as a monolith and as a microservice
 ```
 
-There is one example product threaded through the whole repo — **Linkforge**, a link
-shortener with click analytics. It is small enough to read in a sitting and rich enough to
-show real Domain-Driven Design, CQRS, and Event Sourcing.
+The example domain threaded through the whole repo is the **Customer** context of a B2B SaaS
+backend — register a customer, move it through a lifecycle. Small enough to read in a sitting,
+real enough to show genuine Domain-Driven Design, CQRS, and Event Sourcing (an aggregate with
+invariants, value objects that can't hold invalid state, events as the source of truth).
 
 ---
 
@@ -31,7 +32,7 @@ show real Domain-Driven Design, CQRS, and Event Sourcing.
 2. **[`standards/`](./standards/)** — the rules, expressed as a chain
    **Paradigm → Principle → Rule → Pattern**, with stable IDs (`DOM-002`) the agent cites in
    commits and PRs. Start at [`STANDARDS_INDEX.md`](./standards/STANDARDS_INDEX.md).
-3. **[`product/features/create-short-link/`](./product/features/create-short-link/)** — one
+3. **[`product/features/register-customer/`](./product/features/register-customer/)** — one
    feature, spec-first: `requirements → design → tasks → acceptance`. This is how you brief an
    agent so it can one-shot a phase without guessing. (Same shape as
    [GitHub Spec Kit](https://github.com/github/spec-kit) / [AWS Kiro](https://kiro.dev/docs/specs/).)
@@ -51,9 +52,9 @@ between hoping and knowing. ([fitness functions](https://www.infoq.com/articles/
 
 ## Two shapes of the same idea
 
-`examples/monolith/` and `examples/microservice/` implement the *same* Create-Short-Link
-feature. The standards and the spec don't change — only the deployment shape does. Read both
-to see what actually differs (and what doesn't) when you split a vertical slice into a service.
+`examples/monolith/` and `examples/microservice/` implement the *same* Register-Customer feature.
+The standards and the spec don't change — only the deployment shape does. Read both to see what
+actually differs (and what doesn't) when you split a vertical slice into a service.
 
 ## The multi-repo variant
 
@@ -64,4 +65,4 @@ block into each — see [`docs/multi-repo-fleet.md`](./docs/multi-repo-fleet.md)
 ---
 
 Maintained by [InteliG](https://intelig.ai) — Execution Intelligence. MIT licensed; fork it,
-strip Linkforge, drop in your own product, keep the structure.
+swap the Customer example for your own product, keep the structure.

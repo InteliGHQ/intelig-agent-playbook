@@ -11,7 +11,7 @@ specs, not code.
 ## Your output: a work-item folder
 
 Create `product/features/<slug>/` with four files, modeled on
-`product/features/create-short-link/`:
+`product/features/register-customer/`:
 
 - **requirements.md** — the user story + acceptance criteria in EARS notation (trigger →
   condition → required response). One criterion = one future test. State what's out of scope.

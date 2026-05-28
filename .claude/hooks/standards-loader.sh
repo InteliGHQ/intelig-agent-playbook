@@ -7,14 +7,14 @@
 set -euo pipefail
 
 cat <<'PRIMER'
-# Linkforge — Standards Primer
+# Standards Primer
 
 Engineering rules apply to every code edit in this repo.
 
 1. Before writing code in an area, read the matching family. Start at
    `standards/STANDARDS_INDEX.md` (work-type → families), skim `standards/STANDARDS_DIGEST.md`
    (one line per rule), open the `*.rules.md` family for full text + the Enforcement Map.
-2. Cite the rule ID when an edit triggers a rule (commit, PR, or a short code comment),
+2. Cite the rule ID when an edit triggers a rule (commit, PR, or a brief code comment),
    e.g. `// DOM-002: factory method, no public constructor`.
 3. Advisory vs enforced: rules tagged `fitness` are enforced by architecture tests the build
    runs — they are not optional. `manual-review` rules are advisory; you are the reviewer.

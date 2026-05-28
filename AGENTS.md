@@ -1,4 +1,4 @@
-# Linkforge — Agent Context
+# Customer Platform — Agent Context
 
 > This is the canonical context file. Every agent reads it (Claude Code reads it via the
 > `@AGENTS.md` line in `CLAUDE.md`; Codex, Cursor, Copilot, Gemini CLI, Aider and others read
@@ -7,9 +7,10 @@
 
 ## What you are working on
 
-**Linkforge** is a link shortener with click analytics. A user submits a long URL and gets a
-short code; every visit is recorded; the owner sees click stats over time. Small surface, real
-domain — the codebase is a teaching example for building cleanly with an agent.
+A B2B SaaS backend. This codebase is its **Customer** bounded context: registering customers
+(a company + a primary contact) and moving them through a lifecycle (`PENDING → ACTIVE →
+SUSPENDED`). Small surface, real invariants — a teaching example for building cleanly with an
+agent.
 
 ## Prime directives
 
@@ -18,7 +19,7 @@ domain — the codebase is a teaching example for building cleanly with an agent
    stop at the acceptance gate. Don't invent scope the spec doesn't ask for.
 2. **Standards are law.** Before writing code in an area, read the matching family in
    `standards/` (start at `standards/STANDARDS_INDEX.md` → it tells you which families apply).
-   Cite the rule ID where it clarifies intent (commit, PR, or a short code comment, e.g.
+   Cite the rule ID where it clarifies intent (commit, PR, or a brief code comment, e.g.
    `// DOM-002: factory method, no public constructor`).
 3. **Advisory vs enforced.** Rules here are advisory. The *mandatory* ones are enforced by
    fitness-function tests (see `standards/architecture.rules.md` → Enforcement Map). If a test
@@ -50,5 +51,5 @@ Naming: commands `<Action><Entity>Command`, queries `Get<Entity><Criteria>Query`
 
 ## Commit convention
 
-`<type>(<scope>): <description> (INI-XX)` — e.g. `feat(domain): record click event on visit (INI-01)`.
+`<type>(<scope>): <description> (INI-XX)` — e.g. `feat(domain): emit CustomerRegisteredEvent on registration (INI-01)`.
 Types: `feat fix refactor test docs chore`. Explain *why* in the body; the diff shows *what*.

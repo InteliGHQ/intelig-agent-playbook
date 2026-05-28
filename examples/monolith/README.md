@@ -1,16 +1,17 @@
 # Example: Modular Monolith
 
-One deployable, many bounded contexts, clean seams. Linkforge's features
-(`create-short-link`, `record-visit`, analytics) live as **vertical slices** inside a single
-app and a single database. The seams between them are enforced in code, not by network calls.
+One deployable, many bounded contexts, clean seams. The Customer context's features
+(`register-customer`, `activate-customer`, customer-directory) live as **vertical slices** inside
+a single app and a single database. The seams between them are enforced in code, not by network
+calls.
 
 ```
 examples/monolith/
 ├── src/
 │   ├── features/
-│   │   ├── create-short-link/      api/ application/ domain/ infrastructure/
-│   │   ├── record-visit/           api/ application/ domain/ infrastructure/
-│   │   └── analytics/              api/ application/ domain/ infrastructure/
+│   │   ├── register-customer/      api/ application/ domain/ infrastructure/
+│   │   ├── activate-customer/      api/ application/ domain/ infrastructure/
+│   │   └── customer-directory/     api/ application/ domain/ infrastructure/
 │   └── shared/                     cross-cutting kernel (ids, events, errors)
 ├── test/
 │   └── architecture.fitness.test.ts   # the rules, as tests (ARCH-001, DOM-002, API-001, …)
@@ -19,9 +20,9 @@ examples/monolith/
 
 ## How the spec maps here
 
-`product/features/create-short-link/` builds into `src/features/create-short-link/`. The spec
+`product/features/register-customer/` builds into `src/features/register-customer/`. The spec
 doesn't change for the monolith — the same `requirements/design/tasks/acceptance` drive it. The
-`ShortLinkRepository` port is implemented by a Postgres adapter against the shared database.
+`CustomerRepository` port is implemented by a Postgres adapter against the shared database.
 
 ## When to choose this shape
 
@@ -35,4 +36,4 @@ doesn't change for the monolith — the same `requirements/design/tasks/acceptan
 ## Status
 
 Skeleton. The spec, standards, and fitness-test contract are defined; the runnable
-implementation is built by following `product/features/create-short-link/tasks.md`.
+implementation is built by following `product/features/register-customer/tasks.md`.

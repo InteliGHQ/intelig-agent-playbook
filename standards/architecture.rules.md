@@ -18,7 +18,7 @@ detail that can be swapped without touching it.
   testable and portable; you can replace HTTP, the database, or the framework without rewriting
   business rules. *Enforcement:* `fitness`.
 - **ARCH-002 — Vertical slices first.** The top-level cut is by feature
-  (`features/create-short-link/...`), not by technical layer (`controllers/`, `services/`,
+  (`features/register-customer/...`), not by technical layer (`controllers/`, `services/`,
   `repositories/`). Within a slice, use the layer folders. *Why:* a feature's code, tests, and
   spec sit together; an agent can load one slice and have everything it needs. *Enforcement:*
   `manual-review`.
@@ -33,18 +33,18 @@ detail that can be swapped without touching it.
 
 **Principle:** an aggregate is always valid. It is impossible to hold one in an invalid state.
 
-- **DOM-001 — Invariants live in the aggregate.** "A short code is 4–10 url-safe characters" is
-  enforced inside `ShortLink`, not in the handler that calls it. Handlers orchestrate; they do not
+- **DOM-001 — Invariants live in the aggregate.** "A company name is non-empty and ≤ 120 chars" is
+  enforced inside `Customer`, not in the handler that calls it. Handlers orchestrate; they do not
   decide domain truth. *Enforcement:* `manual-review`.
 - **DOM-002 — Factory creation, no public constructor.** Create aggregates through a static
-  factory (`ShortLink.create(...)`) that validates and emits the creation event. The constructor
+  factory (`Customer.register(...)`) that validates and emits the creation event. The constructor
   is private. *Why:* there is exactly one path into existence, and it cannot produce an invalid
   object. *Enforcement:* `fitness`.
-- **DOM-003 — Value objects are immutable and self-validating.** `ShortCode`, `TargetUrl` validate
-  in their constructor and expose no mutators. An invalid value object cannot be constructed.
-  *Enforcement:* `ci`.
+- **DOM-003 — Value objects are immutable and self-validating.** `EmailAddress`, `CompanyName`
+  validate in their constructor and expose no mutators. An invalid value object cannot be
+  constructed. *Enforcement:* `ci`.
 - **DOM-004 — State changes emit events; no public setters.** Mutation happens through intent-named
-  methods (`recordVisit()`), each of which appends a domain event. No `setStatus(...)`. *Why:*
+  methods (`activate()`), each of which appends a domain event. No `setStatus(...)`. *Why:*
   every change is an auditable fact, which is what makes Event Sourcing possible. *Enforcement:*
   `fitness`.
 - **DOM-005 — One aggregate per transaction.** A single command modifies one aggregate. Cross-
@@ -60,8 +60,8 @@ shapes with different owners.
   (or an id); it never returns query data. A query handler never writes. *Enforcement:* `fitness`.
 - **CQRS-002 — One handler per message.** Each command/query has exactly one handler. No
   "god handler." *Enforcement:* `fitness`.
-- **CQRS-003 — Names declare intent.** `CreateShortLinkCommand`, `RecordVisitCommand`,
-  `GetShortLinkStatsQuery`. Imperative for commands, `Get…` for queries. *Enforcement:* `ci`.
+- **CQRS-003 — Names declare intent.** `RegisterCustomerCommand`, `ActivateCustomerCommand`,
+  `GetCustomerByIdQuery`. Imperative for commands, `Get…` for queries. *Enforcement:* `ci`.
 - **CQRS-004 — Queries read from a projection.** Reads don't rehydrate aggregates; they hit a
   read model built for the question being asked. *Enforcement:* `manual-review`.
 
@@ -83,7 +83,7 @@ shapes with different owners.
 
 **Principle:** the log of what happened is the truth; current state is a fold over it.
 
-- **ES-001 — Events are immutable past-tense facts.** `ShortLinkCreatedEvent`, `VisitRecordedEvent`.
+- **ES-001 — Events are immutable past-tense facts.** `CustomerRegisteredEvent`, `CustomerActivatedEvent`.
   Once written, never changed. *Enforcement:* `ci`.
 - **ES-002 — State is replayed from events.** An aggregate's current state is the result of
   applying its event stream in order. *Enforcement:* `manual-review`.
@@ -92,7 +92,7 @@ shapes with different owners.
 
 ## DB — Persistence
 
-- **DB-001 — snake_case, singular.** `short_link`, `visit_event`. *Enforcement:* `ci`.
+- **DB-001 — snake_case, singular.** `customer`, `customer_event`. *Enforcement:* `ci`.
 - **DB-002 — Forward-only migrations.** Every change is a new migration; shipped migrations are
   immutable. *Enforcement:* `ci`.
 - **DB-003 — Constraints in the schema.** Foreign keys, NOT NULL, uniqueness are declared in the

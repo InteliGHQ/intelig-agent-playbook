@@ -1,16 +1,16 @@
 # Example: Microservice
 
-The *same* Create-Short-Link feature, deployed as its own service with its own database and an
-event bus to talk to the rest of Linkforge. Same spec, same standards, same domain model — only
-the deployment shape and the integration seams change.
+The *same* Register-Customer feature, deployed as its own service with its own database and an
+event bus to talk to the rest of the platform. Same spec, same standards, same domain model —
+only the deployment shape and the integration seams change.
 
 ```
 examples/microservice/
 ├── src/
-│   ├── api/               POST /links  (HTTP boundary)
+│   ├── api/               POST /customers  (HTTP boundary)
 │   ├── application/       command/ handler/
 │   ├── domain/            model/ event/   (identical to the monolith's slice)
-│   └── infrastructure/    pg repository + event publisher (publishes ShortLinkCreatedEvent)
+│   └── infrastructure/    pg repository + event publisher (publishes CustomerRegisteredEvent)
 ├── test/
 │   └── architecture.fitness.test.ts
 └── migrations/
@@ -25,7 +25,7 @@ This is the whole point of having both examples side by side:
 | Domain model | **identical** | **identical** |
 | Spec (`product/features/...`) | **identical** | **identical** |
 | Fitness tests | **identical** | **identical** |
-| `ShortLinkCreatedEvent` consumer | in-process call/handler | published to an event bus |
+| `CustomerRegisteredEvent` consumer | in-process call/handler | published to an event bus |
 | Database | shared, one schema | owned, isolated |
 | Failure modes | a function throws | network, retries, idempotency, partial failure |
 | Deploy | one unit | independent |

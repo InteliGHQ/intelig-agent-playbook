@@ -8,7 +8,7 @@ Create a new feature work-item for: **$ARGUMENTS**
 Do this:
 
 1. Derive a short kebab-case `<slug>` from the description.
-2. Read `product/features/create-short-link/` to mirror its shape exactly (README, requirements,
+2. Read `product/features/register-customer/` to mirror its shape exactly (README, requirements,
    design, tasks, acceptance).
 3. Read `standards/STANDARDS_INDEX.md` and the families this feature will touch.
 4. Hand off to the **architect** subagent to produce the four files in

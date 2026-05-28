@@ -14,7 +14,7 @@ becoming a pile of arbitrary preferences.
 | **Paradigm** | What worldview are we building in? | Domain-Driven Design + CQRS + Event Sourcing |
 | **Principle** | What does that worldview demand? | The domain must not depend on infrastructure |
 | **Rule** | What concrete, checkable line follows? | `DOM-002` — aggregates are created via factory methods, never a public constructor |
-| **Pattern** | What does compliant code look like? | the `ShortLink.create(...)` example in `architecture.patterns.md` |
+| **Pattern** | What does compliant code look like? | the `Customer.register(...)` example in `architecture.patterns.md` |
 
 When you cite `DOM-002` in a commit, a reader can walk the chain up to *why* and down to *how*.
 

@@ -7,43 +7,44 @@ Java, Go, C#, etc. — only the syntax changes.
 ## A vertical slice
 
 ```
-features/create-short-link/
-├── api/            create-short-link.controller.ts      # API-001: thin
+features/register-customer/
+├── api/            register-customer.controller.ts       # API-001: thin
 ├── application/
-│   ├── command/    create-short-link.command.ts          # CQRS-003: imperative name
-│   └── handler/    create-short-link.handler.ts          # CQRS-002: one handler
+│   ├── command/    register-customer.command.ts           # CQRS-003: imperative name
+│   └── handler/    register-customer.handler.ts           # CQRS-002: one handler
 ├── domain/
-│   ├── model/      short-link.ts                          # the aggregate
-│   ├── model/      short-code.ts  target-url.ts           # DOM-003: value objects
-│   └── event/      short-link-created.event.ts            # ES-001: past-tense fact
-└── infrastructure/ short-link.repository.ts               # ARCH-003: implements a domain port
+│   ├── model/      customer.ts                             # the aggregate
+│   ├── model/      email-address.ts  company-name.ts       # DOM-003: value objects
+│   └── event/      customer-registered.event.ts            # ES-001: past-tense fact
+└── infrastructure/ customer.repository.ts                  # ARCH-003: implements a domain port
 ```
 
 ## Aggregate — factory creation, events, no setters (DOM-002, DOM-004)
 
 ```ts
-// domain/model/short-link.ts
-export class ShortLink {
+// domain/model/customer.ts
+export class Customer {
   private constructor(                       // DOM-002: private — only the factory builds one
-    readonly id: ShortLinkId,
-    readonly code: ShortCode,
-    readonly target: TargetUrl,
-    private _visits: number,
+    readonly id: CustomerId,
+    readonly companyName: CompanyName,
+    readonly email: EmailAddress,
+    private _status: CustomerStatus,
     private readonly _events: DomainEvent[],
   ) {}
 
-  static create(code: ShortCode, target: TargetUrl): ShortLink {   // DOM-002: the one path in
-    const link = new ShortLink(ShortLinkId.next(), code, target, 0, []);
-    link.raise(new ShortLinkCreatedEvent(link.id, code, target));  // DOM-004: state change = event
-    return link;
+  static register(name: CompanyName, email: EmailAddress): Customer {  // DOM-002: the one path in
+    const customer = new Customer(CustomerId.next(), name, email, "PENDING", []);
+    customer.raise(new CustomerRegisteredEvent(customer.id, name, email)); // DOM-004: change = event
+    return customer;
   }
 
-  recordVisit(): void {                       // DOM-004: intent method, not setVisits()
-    this._visits += 1;
-    this.raise(new VisitRecordedEvent(this.id, new Date()));
+  activate(): void {                          // DOM-004: intent method, not setStatus("ACTIVE")
+    if (this._status !== "PENDING") throw new IllegalCustomerTransition(this._status);
+    this._status = "ACTIVE";
+    this.raise(new CustomerActivatedEvent(this.id));
   }
 
-  get visits(): number { return this._visits; }            // read ok; no public setter
+  get status(): CustomerStatus { return this._status; }    // read ok; no public setter
   private raise(e: DomainEvent) { this._events.push(e); }
 }
 ```
@@ -51,12 +52,13 @@ export class ShortLink {
 ## Value object — immutable, validates on construction (DOM-003)
 
 ```ts
-// domain/model/short-code.ts
-export class ShortCode {
+// domain/model/email-address.ts
+export class EmailAddress {
   private constructor(readonly value: string) {}
-  static of(raw: string): ShortCode {
-    if (!/^[A-Za-z0-9_-]{4,10}$/.test(raw)) throw new InvalidShortCode(raw); // can't exist if invalid
-    return new ShortCode(raw);
+  static of(raw: string): EmailAddress {
+    const normalized = raw.trim().toLowerCase();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(normalized)) throw new InvalidEmail(raw); // can't exist if invalid
+    return new EmailAddress(normalized);
   }
 }
 ```
@@ -64,19 +66,19 @@ export class ShortCode {
 ## Command + handler — mutate, return id, one responsibility (CQRS-001, CQRS-002)
 
 ```ts
-// application/command/create-short-link.command.ts
-export type CreateShortLinkCommand = { target: string; desiredCode?: string };
+// application/command/register-customer.command.ts
+export type RegisterCustomerCommand = { companyName: string; email: string };
 
-// application/handler/create-short-link.handler.ts
-export class CreateShortLinkHandler {
-  constructor(private readonly links: ShortLinkRepository) {}  // ARCH-003: depends on the port
-  async handle(cmd: CreateShortLinkCommand): Promise<ShortLinkId> {
-    const link = ShortLink.create(                              // DOM-001: invariant lives in the aggregate
-      cmd.desiredCode ? ShortCode.of(cmd.desiredCode) : ShortCode.random(),
-      TargetUrl.of(cmd.target),
+// application/handler/register-customer.handler.ts
+export class RegisterCustomerHandler {
+  constructor(private readonly customers: CustomerRepository) {}  // ARCH-003: depends on the port
+  async handle(cmd: RegisterCustomerCommand): Promise<CustomerId> {
+    const customer = Customer.register(                            // DOM-001: invariant lives in the aggregate
+      CompanyName.of(cmd.companyName),
+      EmailAddress.of(cmd.email),
     );
-    await this.links.save(link);
-    return link.id;                                            // CQRS-001: returns id, no query data
+    await this.customers.save(customer);
+    return customer.id;                                           // CQRS-001: returns id, no query data
   }
 }
 ```
@@ -84,10 +86,10 @@ export class CreateShortLinkHandler {
 ## Controller — thin, no business logic (API-001, API-002)
 
 ```ts
-// api/create-short-link.controller.ts
-export async function createShortLink(req: Request, res: Response) {
-  const dto = parseCreateShortLink(req.body);          // API-002: DTO in
-  const id = await handler.handle({ target: dto.target, desiredCode: dto.code });
+// api/register-customer.controller.ts
+export async function registerCustomer(req: Request, res: Response) {
+  const dto = parseRegisterCustomer(req.body);         // API-002: DTO in
+  const id = await handler.handle({ companyName: dto.companyName, email: dto.email });
   res.status(201).json({ id: id.value });              // map result out — no domain decisions here
 }
 ```
@@ -95,14 +97,14 @@ export async function createShortLink(req: Request, res: Response) {
 ## Port + adapter — domain declares, infrastructure implements (ARCH-003)
 
 ```ts
-// domain/model/short-link.repository.ts   (the PORT — lives in domain)
-export interface ShortLinkRepository { save(link: ShortLink): Promise<void>; }
+// domain/model/customer.repository.ts   (the PORT — lives in domain)
+export interface CustomerRepository { save(customer: Customer): Promise<void>; }
 
-// infrastructure/short-link.repository.ts  (the ADAPTER — depends on domain, never the reverse)
-export class PgShortLinkRepository implements ShortLinkRepository { /* … */ }
+// infrastructure/customer.repository.ts  (the ADAPTER — depends on domain, never the reverse)
+export class PgCustomerRepository implements CustomerRepository { /* … */ }
 ```
 
 ## TS family quick rules
 - `TS-001` strict mode, no unjustified `any`.
 - `TS-002` throw typed errors at boundaries; never swallow.
-- `TS-003` name files for the concept (`short-link.ts`), not the layer.
+- `TS-003` name files for the concept (`customer.ts`), not the layer.
