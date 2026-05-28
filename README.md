@@ -13,7 +13,7 @@ AGENTS.md     ← the canonical context every agent reads (lean, always loaded)
 CLAUDE.md     ← one line: @AGENTS.md  (so Claude Code reads the same source)
 standards/    ← the law: the rules the agent must obey, with stable IDs
 product/      ← what we're building: spec-first work-items grouped by domain + the strategy
-.claude/      ← the tooling: hooks, subagents, slash commands, settings
+.claude/      ← the tooling: hooks, subagents, slash commands, skills, settings
 examples/     ← proof: the same feature built as a monolith and as a microservice
 ```
 
@@ -23,6 +23,9 @@ real enough to show genuine Domain-Driven Design, CQRS, and Event Sourcing (an a
 invariants, value objects that can't hold invalid state, events as the source of truth).
 
 ---
+
+> **Want the whole picture first?** [`WALKTHROUGH.md`](./WALKTHROUGH.md) tours the repo end to end —
+> what loads, what fires when, and how context, standards, and enforcement interlock.
 
 ## Read these four things, in order
 

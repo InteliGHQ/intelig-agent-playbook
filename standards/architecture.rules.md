@@ -129,6 +129,10 @@ test("API-001: controllers contain no domain imports", () => {
 });
 ```
 
+Scaffold it with the `fitness-test` skill (`.claude/skills/fitness-test/`) — it bundles this
+template, the file conventions, and the rule-ID-in-failure contract, so authoring the test is one
+operation instead of a from-scratch guess.
+
 Now the rule is not a request — it's a wall. The next agent that tries the same shortcut gets a
 red build with the rule ID in the failure message. **That is how you stop teaching the same
 lesson twice.**

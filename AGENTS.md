@@ -7,10 +7,15 @@
 
 ## What you are working on
 
-A B2B SaaS backend. This codebase is its **Customer** bounded context: registering customers
-(a company + a primary contact) and moving them through a lifecycle (`PENDING → ACTIVE →
-SUSPENDED`). Small surface, real invariants — a teaching example for building cleanly with an
-agent.
+> **Fork note — replace this block with your product.** One or two sentences: what the system is,
+> the bounded context this repo owns, and its core lifecycle/invariants. Keep it tight; it loads on
+> every turn. Pattern:
+> *"A `<kind of system>`. This codebase is its `<Context>` context: `<what it does>`, moving them
+> through `<STATE → STATE → STATE>`. Small surface, real invariants."*
+
+Example used throughout this repo: a B2B SaaS backend whose **Customer** context registers a
+customer (a company + a primary contact) and moves it through `PENDING → ACTIVE → SUSPENDED` — a
+teaching example for building cleanly with an agent.
 
 ## Prime directives
 
