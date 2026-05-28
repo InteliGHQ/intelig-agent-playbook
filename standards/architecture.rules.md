@@ -17,11 +17,11 @@ detail that can be swapped without touching it.
   controller; a domain model may not import a repository implementation. *Why:* the domain stays
   testable and portable; you can replace HTTP, the database, or the framework without rewriting
   business rules. *Enforcement:* `fitness`.
-- **ARCH-002 — Vertical slices first.** The top-level cut is by feature
-  (`features/register-customer/...`), not by technical layer (`controllers/`, `services/`,
-  `repositories/`). Within a slice, use the layer folders. *Why:* a feature's code, tests, and
-  spec sit together; an agent can load one slice and have everything it needs. *Enforcement:*
-  `manual-review`.
+- **ARCH-002 — Bounded context, then vertical slice.** The top-level cut is by bounded context
+  and then by feature/use-case slice (`domains/customer/register-customer/...`), not by technical
+  layer (`controllers/`, `services/`, `repositories/`). Within a slice, use the layer folders.
+  *Why:* a context groups its related slices, and each slice's code, tests, and spec sit together;
+  an agent can load one slice and have everything it needs. *Enforcement:* `manual-review`.
 - **ARCH-003 — Infrastructure depends on domain, never the reverse.** A Postgres repository
   *implements* a domain-defined interface. The domain declares the port; infrastructure provides
   the adapter. *Enforcement:* `fitness`.

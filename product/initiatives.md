@@ -32,3 +32,20 @@ Onboarding?" by grepping commit subjects for `(INI-01)`.
 > build an automated linker, verify end-to-end that it keys off the tag — it's easy to ship a
 > linker that silently links on something else (repo, author, keywords) and leaves your tags
 > decorative. Don't claim auto-linking you haven't watched fire.
+
+## Static vs dynamic loading
+
+The session hook (`.claude/hooks/initiatives-loader.sh`) has two modes behind one identical output:
+
+- **Static (default).** It reads *this file*. No API, no credentials, no network — a clone works
+  offline, forever. This is the forkable default.
+- **Dynamic (opt-in).** Set `INITIATIVES_API_URL` (and optionally `INITIATIVES_API_KEY`) and the
+  hook fetches your live strategy from that endpoint, caches it for an hour, and **falls back to
+  this file** on any failure. Same output shape, so nothing downstream can tell which mode ran.
+
+The contract is identical either way — *print the active initiatives + the conventions* — so
+flipping a repo from a committed file to a live strategy API is a one-env-var change, not a
+rewrite. Dynamic mode only changes *where the list comes from*; it still does **not** auto-link
+your commits. Wiring commits, PRs, and branches to initiatives automatically — via a matcher chain
+over file globs, branch prefixes, and message keywords — is a product problem, not a hook (see the
+honest note above).

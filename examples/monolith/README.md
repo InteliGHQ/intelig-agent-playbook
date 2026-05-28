@@ -8,11 +8,12 @@ calls.
 ```
 examples/monolith/
 ├── src/
-│   ├── features/
-│   │   ├── register-customer/      api/ application/ domain/ infrastructure/
-│   │   ├── activate-customer/      api/ application/ domain/ infrastructure/
-│   │   └── customer-directory/     api/ application/ domain/ infrastructure/
-│   └── shared/                     cross-cutting kernel (ids, events, errors)
+│   ├── domains/
+│   │   └── customer/                  one bounded context (a 2nd, e.g. billing/, is a sibling)
+│   │       ├── register-customer/     api/ application/ domain/ infrastructure/
+│   │       ├── activate-customer/     api/ application/ domain/ infrastructure/
+│   │       └── customer-directory/    api/ application/ domain/ infrastructure/
+│   └── shared/                        cross-cutting kernel (ids, events, errors)
 ├── test/
 │   └── architecture.fitness.test.ts   # the rules, as tests (ARCH-001, DOM-002, API-001, …)
 └── migrations/
@@ -20,7 +21,7 @@ examples/monolith/
 
 ## How the spec maps here
 
-`product/features/register-customer/` builds into `src/features/register-customer/`. The spec
+`product/domains/customer/register-customer/` builds into `src/domains/customer/register-customer/`. The spec
 doesn't change for the monolith — the same `requirements/design/tasks/acceptance` drive it. The
 `CustomerRepository` port is implemented by a Postgres adapter against the shared database.
 
@@ -36,4 +37,4 @@ doesn't change for the monolith — the same `requirements/design/tasks/acceptan
 ## Status
 
 Skeleton. The spec, standards, and fitness-test contract are defined; the runnable
-implementation is built by following `product/features/register-customer/tasks.md`.
+implementation is built by following `product/domains/customer/register-customer/tasks.md`.

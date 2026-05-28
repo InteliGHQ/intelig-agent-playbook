@@ -23,7 +23,7 @@ This is the whole point of having both examples side by side:
 | | Monolith slice | Microservice |
 |---|---|---|
 | Domain model | **identical** | **identical** |
-| Spec (`product/features/...`) | **identical** | **identical** |
+| Spec (`product/domains/...`) | **identical** | **identical** |
 | Fitness tests | **identical** | **identical** |
 | `CustomerRegisteredEvent` consumer | in-process call/handler | published to an event bus |
 | Database | shared, one schema | owned, isolated |

@@ -30,7 +30,7 @@ Full text lives in the linked `*.rules.md`. One-line summaries are in
 
 Read the family again — don't trust memory — when you:
 
-- start a new feature in `product/features/`,
+- start a new work-item in `product/domains/`,
 - cross a layer boundary (e.g. wiring `application/` to `infrastructure/`),
 - add a new aggregate, command, query, or event,
 - touch anything tagged `fitness` (the test will tell you the rule ID it enforced).

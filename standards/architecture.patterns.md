@@ -7,7 +7,7 @@ Java, Go, C#, etc. — only the syntax changes.
 ## A vertical slice
 
 ```
-features/register-customer/
+domains/customer/register-customer/
 ├── api/            register-customer.controller.ts       # API-001: thin
 ├── application/
 │   ├── command/    register-customer.command.ts           # CQRS-003: imperative name

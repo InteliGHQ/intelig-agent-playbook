@@ -1,6 +1,6 @@
 # Design — Register Customer
 
-Read [`standards/architecture.rules.md`](../../../standards/architecture.rules.md) before
+Read [`standards/architecture.rules.md`](../../../../standards/architecture.rules.md) before
 implementing. The rule IDs each decision triggers are cited inline.
 
 ## Domain model

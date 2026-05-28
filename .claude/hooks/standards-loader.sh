@@ -18,6 +18,7 @@ Engineering rules apply to every code edit in this repo.
    e.g. `// DOM-002: factory method, no public constructor`.
 3. Advisory vs enforced: rules tagged `fitness` are enforced by architecture tests the build
    runs — they are not optional. `manual-review` rules are advisory; you are the reviewer.
-4. Features are spec-first: `product/features/<slug>/` holds requirements → design → tasks →
-   acceptance. Implement one task at a time; stop at the acceptance gate.
+4. Work is spec-first, grouped by domain: `product/domains/<domain>/<work-item>/` holds
+   requirements → design → tasks → acceptance (the domain's `README.md` is its durable
+   description). Implement one task at a time; stop at the acceptance gate.
 PRIMER

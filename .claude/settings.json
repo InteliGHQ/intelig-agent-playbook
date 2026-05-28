@@ -8,6 +8,14 @@
           { "type": "command", "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/initiatives-loader.sh" }
         ]
       }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/standards-gate.sh" }
+        ]
+      }
     ]
   }
 }

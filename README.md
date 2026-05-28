@@ -12,7 +12,7 @@ single `ls`.
 AGENTS.md     ← the canonical context every agent reads (lean, always loaded)
 CLAUDE.md     ← one line: @AGENTS.md  (so Claude Code reads the same source)
 standards/    ← the law: the rules the agent must obey, with stable IDs
-product/      ← what we're building: features as spec-first work-items + the strategy
+product/      ← what we're building: spec-first work-items grouped by domain + the strategy
 .claude/      ← the tooling: hooks, subagents, slash commands, settings
 examples/     ← proof: the same feature built as a monolith and as a microservice
 ```
@@ -32,9 +32,12 @@ invariants, value objects that can't hold invalid state, events as the source of
 2. **[`standards/`](./standards/)** — the rules, expressed as a chain
    **Paradigm → Principle → Rule → Pattern**, with stable IDs (`DOM-002`) the agent cites in
    commits and PRs. Start at [`STANDARDS_INDEX.md`](./standards/STANDARDS_INDEX.md).
-3. **[`product/features/register-customer/`](./product/features/register-customer/)** — one
-   feature, spec-first: `requirements → design → tasks → acceptance`. This is how you brief an
-   agent so it can one-shot a phase without guessing. (Same shape as
+3. **[`product/domains/customer/`](./product/domains/customer/)** — a domain (bounded context)
+   and its spec-first work-items. The durable context description lives in its `README.md`; each
+   work-item under it — e.g.
+   [`register-customer/`](./product/domains/customer/register-customer/) — is
+   `requirements → design → tasks → acceptance`. This is how you brief an agent so it can
+   one-shot a phase without guessing. (Same shape as
    [GitHub Spec Kit](https://github.com/github/spec-kit) / [AWS Kiro](https://kiro.dev/docs/specs/).)
 4. **[`.claude/`](./.claude/)** — the tooling that makes it automatic: a session hook that
    injects the standards primer **and your live strategy**, two subagents, and a slash command.

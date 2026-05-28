@@ -5,7 +5,7 @@ text and the Enforcement Map. Format: `ID — rule (enforcement)`.
 
 ## ARCH — architecture & layering
 - `ARCH-001` — Dependencies point inward only: `api → application → domain`; `domain` imports nothing outward. (fitness)
-- `ARCH-002` — Organize by feature (vertical slice), not by technical layer at the top level. (manual-review)
+- `ARCH-002` — Organize by bounded context, then by feature (vertical slice) — not by technical layer at the top level. (manual-review)
 - `ARCH-003` — `infrastructure` may depend on `domain` interfaces, never the reverse. (fitness)
 - `ARCH-004` — No framework or I/O types in `domain` (no HTTP, ORM, SDK imports). (fitness)
 
